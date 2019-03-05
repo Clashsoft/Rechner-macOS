@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "math.h"
 
 @implementation AppDelegate
 
@@ -297,8 +296,7 @@
 
 - (void)updateTextView
 {
-	_TextView.stringValue = [NSString stringWithFormat:(@"%@\n%@ %@"), [[NSNumber numberWithDouble:var1] stringValue], curCal, [[NSNumber numberWithDouble:var2] stringValue]];
-
+	_TextView.stringValue = [NSString stringWithFormat:(@"%f\n%@ %f"), var1, curCal, var2];
 }
 
 - (void)setNewCalculateMode:(NSString*)mode
@@ -329,16 +327,16 @@
 	else if ([mode isEqual: @"/"]) {d = par1 / par2;}
 	else if ([mode isEqual: @"^"]) {d = pow(par1, par2);}
 	else if ([mode isEqual: @"√"]) {d = [AppDelegate sqrt:par2 number:par1];}
-	else if ([mode isEqual: @"∑"]) {for (int i = par1; i <= par2; i++) { d += i; };}
+	else if ([mode isEqual: @"∑"]) {for (int i = (int) par1; i <= par2; i++) { d += i; };}
 	else if ([mode isEqual: @"sin"]) {d = sin(par1);}
 	else if ([mode isEqual: @"cos"]) {d = cos(par1);}
 	else if ([mode isEqual: @"tan"]) {d = tan(par1);}
-	else if ([mode isEqual: @"LCM"]) {d = [AppDelegate lcm:par1 and:par2];}
-	else if ([mode isEqual: @"GCD"]) {d = [AppDelegate gcd:par1 and:par2];}
+	else if ([mode isEqual: @"LCM"]) {d = [AppDelegate lcm:(int) par1 and:(int) par2];}
+    else if ([mode isEqual: @"GCD"]) {d = [AppDelegate gcd:(int) par1 and:(int) par2];}
 
-	result = d;
-	_ResultTextView.stringValue = [NSString stringWithFormat:(@"%@"), [[NSNumber numberWithDouble:result] stringValue]];
-	[self addDeveloperInfo:([NSString stringWithFormat:(@"%@ %@ %@ = %@"), [[NSNumber numberWithDouble:par1] stringValue], curCal, [[NSNumber numberWithDouble:par2] stringValue], [[NSNumber numberWithDouble:result] stringValue]])];
+    result = d;
+    _ResultTextView.stringValue = [NSString stringWithFormat:(@"%f"), result];
+	[self addDeveloperInfo:([NSString stringWithFormat:(@"%f %@ %f = %f"), par1, curCal, par2, result])];
 
 	return d;
 }
@@ -358,7 +356,6 @@
 			return n;
 		}
 	}
-	return 0;
 }
 
 + (int)gcd:(int)a and:(int)b
@@ -380,7 +377,6 @@
 		a = b;
 		b = c;
 	}
-	return 0;
 }
 
 - (void)addDeveloperInfo:(NSString*)info
